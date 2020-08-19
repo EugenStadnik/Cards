@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features/deckofcardsapi.feature",
-        glue = {"com/deckofcards/api/features/steps"}
+        features = "src/test/resources/features"
+        , glue = "com.deckofcards.api.features.steps"
         )
 public class DeckOfCardsApiTests { }

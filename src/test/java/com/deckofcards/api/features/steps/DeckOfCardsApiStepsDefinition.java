@@ -12,14 +12,13 @@ import cucumber.api.java.en.When;
 
 public class DeckOfCardsApiStepsDefinition {
 
-    private int numberOfDecks = 1;
     private Deck expectedDeck;
     private Deck actualDeck;
     private Deck drawnDeck;
     private Deck remainingDeck;
 
-    @Given("the deck containing (.*) cards")
-    public void theDeckContainingSomeCards(String numberOfCards) throws JsonProcessingException {
+    @Given("the deck containing {string} cards in {int} decks")
+    public void theDeckContainingSomeCards(String numberOfCards, int numberOfDecks) throws JsonProcessingException {
         ExpectedDeckProvider expectedDeckProvider = new ExpectedCardsProviderFactory(numberOfCards, numberOfDecks).getProvider();
         expectedDeck = expectedDeckProvider.provide(false);
         ActualDeckProvider actualDeckProvider = new ActualDeckProviderFactory(numberOfCards, numberOfDecks, expectedDeck).getProvider();

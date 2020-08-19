@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'war'
-    id "com.commercehub.cucumber-jvm" version "0.8"
+    //id "com.commercehub.cucumber-jvm" version "0.8"
 }
 
 group 'Cards'
@@ -26,7 +26,7 @@ dependencies {
 
 configurations {
     cucumberRuntime {
-        extendsFrom testImplementation
+        extendsFrom testRuntime
     }
 }
 
@@ -36,12 +36,7 @@ task cucumber() {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'pretty', '--glue', 'com.deckofcards.api.features.steps', 'src/test/resources/']
+            args = ['--plugin', 'org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter', '--glue', 'com.deckofcards.api.features.steps', 'src/test/resources/features']
         }
     }
-}
-
-test {
-    testLogging.showStandardStreams = true
-    systemProperties System.getProperties()
 }

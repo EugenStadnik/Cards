@@ -12,6 +12,17 @@ import static io.restassured.RestAssured.*;
 
 public class RestHelper {
 
+    private static RestHelper instance;
+
+    private RestHelper() {}
+
+    public static RestHelper getInstance() {
+        if(instance == null) {
+            instance = new RestHelper();
+        }
+        return instance;
+    }
+
     public<T> Response sendRequest(Method method, URL baseUrl, Map<String, ?> params, Map<String, ?> headers, T body) {
         return given().params(params).headers(headers).body(body)
                 .when().request(method, baseUrl);

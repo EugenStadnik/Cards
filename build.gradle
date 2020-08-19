@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'war'
+    id "com.commercehub.cucumber-jvm" version "0.8"
 }
 
 group 'Cards'
@@ -16,9 +17,31 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'io.cucumber:cucumber-java8:6.5.0'
     testCompile 'io.cucumber:cucumber-junit:6.5.0'
+    compile group: 'info.cukes', name: 'cucumber-java8', version: '1.2.5'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
     providedCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     compile group: 'org.json', name: 'json', version: '20180813'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
+}
 
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'com.deckofcards.api.features.steps', 'src/test/resources/']
+        }
+    }
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
 }

@@ -1,9 +1,12 @@
 package com.deckofcards.api.utils.factories;
 
-import com.deckofcards.api.utils.providers.Provider;
+import com.deckofcards.api.utils.checkers.ParameterChecker;
+import com.deckofcards.api.utils.providers.DeckProvider;
 
 public interface ProviderFactory {
 
-    Provider getProvider(String parameter);
+    ParameterChecker PARAMETER_CHECKER = ParameterChecker.getInstance();
+
+    DeckProvider getProvider();
 
 }

@@ -6,33 +6,33 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import lombok.SneakyThrows;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.deckofcards.Constants.*;
+import static com.deckofcards.api.utils.Constants.*;
 
 public class SpecificActualDeckProvider implements ActualDeckProvider {
 
-    private Deck expectedDeck;
+    private final Deck expectedDeck;
 
     public SpecificActualDeckProvider(Deck expectedDeck) {
         this.expectedDeck = expectedDeck;
     }
 
     @Override
-    @SneakyThrows
     public Deck provide(boolean shuffle) throws JsonProcessingException {
-        String cardsToProvide = expectedDeck.getCards().stream().map((card) -> {
-            return card.getCode();
-        }).collect(Collectors.joining(SPECIFIC_CARDS_DELIMETER));
+        return provide(expectedDeck, shuffle);
+    }
+
+    public Deck provide(Deck expectedDeck, boolean shuffle) throws JsonProcessingException {
+        String cardsToProvide = expectedDeck.getCards().stream().map(Card::getCode)
+                .collect(Collectors.joining(SPECIFIC_CARDS_DELIMETER));
         RequestSpecification spec = new RequestSpecBuilder().setBaseUri(BASE_URL)
                 .setBasePath(CREATE_PATH + (shuffle ? SHUFFLE_PATH : EMPTY_STRING))
-                .addPathParam(SPECIFIC_CARDS_PARAM, cardsToProvide)
+                .addQueryParam(SPECIFIC_CARDS_PARAM, cardsToProvide)
                 .build();
         Response response = REST_HELPER.sendGETRequest(spec);
-        return OBJECT_MAPPER.readValue(response.asString(), Deck.class);
+        return OBJECT_MAPPER_HELPER.mapDeck(response.asString());
     }
 
 }

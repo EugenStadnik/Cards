@@ -1,6 +1,6 @@
 package com.deckofcards.api.utils.checkers;
 
-import com.deckofcards.Constants;
+import com.deckofcards.api.utils.Constants;
 import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
@@ -32,7 +32,7 @@ public class ParameterChecker {
 
     public boolean isAll(String parameter) {
         return Constants.FULL_DECK_VOLUME.toString().equals(parameter)
-                || Constants.ALL.equals(parameter.toUpperCase());
+                || Constants.ALL_SCRIPT_PARAM.equals(parameter.toUpperCase());
     }
 
     public boolean isValue(String parameter) {

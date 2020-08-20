@@ -6,40 +6,35 @@ import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.deckofcards.Constants.*;
+import static com.deckofcards.api.utils.Constants.*;
 
 public class FullExpectedDeckProvider implements ExpectedDeckProvider {
 
-    private int decksToProvide;
+    private final int setsToProvide;
 
-    public FullExpectedDeckProvider(int decksToProvide) {
-        this.decksToProvide = decksToProvide;
+    public FullExpectedDeckProvider(int setsToProvide) {
+        this.setsToProvide = setsToProvide;
     }
 
     @Override
     public Deck provide(boolean shuffle) {
+        return provide(setsToProvide, shuffle);
+    }
+
+    public Deck provide(int setsToProvide, boolean shuffle) {
         Deck deck = new Deck();
-        List<Card> cards = new ArrayList<>(decksToProvide * FULL_DECK_VOLUME * 2);
-        Stream.generate(() -> decksToProvide).limit(decksToProvide).forEach((dec) -> {
+        List<Card> cards = new ArrayList<>(setsToProvide * FULL_DECK_VOLUME * 2);
+        Stream.generate(() -> setsToProvide).limit(setsToProvide).forEach((dec) -> {
             Stream.of(Value.values()).forEach((value) -> {
                 Stream.of(Suit.values()).forEach((suit) -> {
-                    Card card = new Card();
-                    card.setValue(value);
-                    card.setSuit(suit);
-                    card.setCode(value.getShortName() + suit.getShortName());
-                    cards.add(card);
+                    cards.add(new Card(value, suit));
                 });
             });
         });
-        if (shuffle) {
-            Collections.shuffle(cards);
-        }
-        deck.setCards(cards);
-        return deck;
+        return completeDeck(shuffle, cards, deck);
     }
 
 }

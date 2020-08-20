@@ -6,13 +6,12 @@ import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class RandomExpectedDeckProvider implements ExpectedDeckProvider {
 
-    private int cardsToProvide;
+    private final int cardsToProvide;
 
     public RandomExpectedDeckProvider(int cardsToProvide) {
         this.cardsToProvide = cardsToProvide;
@@ -20,21 +19,17 @@ public class RandomExpectedDeckProvider implements ExpectedDeckProvider {
 
     @Override
     public Deck provide(boolean shuffle) {
+        return provide(cardsToProvide, shuffle);
+    }
+
+    public Deck provide(int cardsToProvide, boolean shuffle) {
         Deck deck = new Deck();
         List<Card> cards = new ArrayList<>(cardsToProvide * 2);
         Stream.generate(() -> cardsToProvide).limit(cardsToProvide).forEach((i) -> {
             Value value = Value.getRandom();
             Suit suit = Suit.getRandom();
-            Card card = new Card();
-            card.setValue(value);
-            card.setSuit(suit);
-            card.setCode(value.getShortName() + suit.getShortName());
-            cards.add(card);
+            cards.add(new Card(value, suit));
         });
-        if (shuffle) {
-            Collections.shuffle(cards);
-        }
-        deck.setCards(cards);
-        return deck;
+        return completeDeck(shuffle, cards, deck);
     }
 }

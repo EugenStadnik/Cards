@@ -1,7 +1,13 @@
 plugins {
     id 'java'
     id 'war'
-    //id "com.commercehub.cucumber-jvm" version "0.8"
+    id 'io.spring.dependency-management' version '1.0.1.RELEASE'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.apache.logging.log4j:log4j-bom:2.13.3'
+    }
 }
 
 group 'Cards'
@@ -22,6 +28,7 @@ dependencies {
     providedCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     compile group: 'org.json', name: 'json', version: '20180813'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
 }
 
 configurations {

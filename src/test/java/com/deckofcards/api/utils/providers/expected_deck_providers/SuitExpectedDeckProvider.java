@@ -6,35 +6,30 @@ import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class SuitExpectedDeckProvider implements ExpectedDeckProvider {
 
-    private Suit suit;
+    private final Suit suitToProvide;
 
-    public SuitExpectedDeckProvider(Suit suit) {
-        this.suit = suit;
+    public SuitExpectedDeckProvider(Suit suitToProvide) {
+        this.suitToProvide = suitToProvide;
     }
 
     @Override
     public Deck provide(boolean shuffle) {
+        return provide(suitToProvide, shuffle);
+    }
+
+    public Deck provide(Suit suitToProvide, boolean shuffle) {
         Deck deck = new Deck();
         List<Card> cards = new ArrayList<>(Value.values().length * 2);
         deck.setCards(cards);
         Stream.of(Value.values()).forEach((value) -> {
-            Card card = new Card();
-            card.setValue(value);
-            card.setSuit(suit);
-            card.setCode(value.getShortName() + suit.getShortName());
-            cards.add(card);
+            cards.add(new Card(value, suitToProvide));
         });
-        if (shuffle) {
-            Collections.shuffle(cards);
-        }
-        deck.setCards(cards);
-        return deck;
+        return completeDeck(shuffle, cards, deck);
     }
 
 }

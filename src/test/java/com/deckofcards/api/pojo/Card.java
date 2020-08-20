@@ -24,6 +24,14 @@ public class Card extends Pojo {
     @JsonProperty(value = "code", required = true)
     private String code;
 
+    public Card() {}
+
+    public Card(Value value, Suit suit) {
+        this.value = value;
+        this.suit = suit;
+        this.code = value.getShortName() + suit.getShortName();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -1,18 +1,15 @@
 package com.deckofcards.api.utils.factories;
 
-import com.deckofcards.api.pojo.Card;
 import com.deckofcards.api.pojo.Deck;
 import com.deckofcards.api.utils.providers.actual_deck_providers.ActualDeckProvider;
 import com.deckofcards.api.utils.providers.actual_deck_providers.FullActualDeckProvider;
 import com.deckofcards.api.utils.providers.actual_deck_providers.SpecificActualDeckProvider;
 
-import java.util.List;
-
 public class ActualDeckProviderFactory implements ProviderFactory {
 
-    private String numberOfCards;
-    private Integer numberOfDecks;
-    private Deck expectedDeck;
+    private final String numberOfCards;
+    private final Integer numberOfDecks;
+    private final Deck expectedDeck;
 
     public ActualDeckProviderFactory(String numberOfCards, Integer numberOfDecks, Deck expectedDeck) {
         this.numberOfCards = numberOfCards;
@@ -22,6 +19,10 @@ public class ActualDeckProviderFactory implements ProviderFactory {
 
     @Override
     public ActualDeckProvider getProvider() {
+        return getProvider(numberOfCards, numberOfDecks, expectedDeck);
+    }
+
+    public ActualDeckProvider getProvider(String numberOfCards, Integer numberOfDecks, Deck expectedDeck) {
         if(PARAMETER_CHECKER.isAll(numberOfCards)) {
             return new FullActualDeckProvider(numberOfDecks);
         } else if(PARAMETER_CHECKER.isNumber(numberOfCards)

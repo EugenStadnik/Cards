@@ -6,8 +6,8 @@ import com.deckofcards.api.utils.providers.expected_deck_providers.*;
 
 public class ExpectedCardsProviderFactory implements ProviderFactory {
 
-    private String numberOfCards;
-    private Integer numberOfDecks;
+    private final String numberOfCards;
+    private final Integer numberOfDecks;
 
     public ExpectedCardsProviderFactory(String numberOfCards, Integer numberOfDecks) {
         this.numberOfCards = numberOfCards;
@@ -16,6 +16,10 @@ public class ExpectedCardsProviderFactory implements ProviderFactory {
 
     @Override
     public ExpectedDeckProvider getProvider() {
+        return getProvider(numberOfCards, numberOfDecks);
+    }
+
+    public ExpectedDeckProvider getProvider(String numberOfCards, Integer numberOfDecks) {
         if(PARAMETER_CHECKER.isAll(numberOfCards)) {
             return new FullExpectedDeckProvider(numberOfDecks);
         } else if(PARAMETER_CHECKER.isNumber(numberOfCards)) {

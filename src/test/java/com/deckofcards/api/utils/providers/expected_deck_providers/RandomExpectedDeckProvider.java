@@ -11,21 +11,21 @@ import java.util.stream.Stream;
 
 public class RandomExpectedDeckProvider implements ExpectedDeckProvider {
 
-    private final int cardsToProvide;
+    private final int amountsOfCards;
 
-    public RandomExpectedDeckProvider(int cardsToProvide) {
-        this.cardsToProvide = cardsToProvide;
+    public RandomExpectedDeckProvider(int amountsOfCards) {
+        this.amountsOfCards = amountsOfCards;
     }
 
     @Override
     public Deck provide(boolean shuffle) {
-        return provide(cardsToProvide, shuffle);
+        return provide(amountsOfCards, shuffle);
     }
 
-    public Deck provide(int cardsToProvide, boolean shuffle) {
+    public Deck provide(int amountsOfCards, boolean shuffle) {
         Deck deck = new Deck();
-        List<Card> cards = new ArrayList<>(cardsToProvide * 2);
-        Stream.generate(() -> cardsToProvide).limit(cardsToProvide).forEach((i) -> {
+        List<Card> cards = new ArrayList<>(amountsOfCards * 2);
+        Stream.generate(() -> amountsOfCards).limit(amountsOfCards).forEach((i) -> {
             Value value = Value.getRandom();
             Suit suit = Suit.getRandom();
             cards.add(new Card(value, suit));

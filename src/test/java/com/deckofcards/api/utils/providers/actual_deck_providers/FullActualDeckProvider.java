@@ -10,21 +10,21 @@ import static com.deckofcards.api.utils.Constants.*;
 
 public class FullActualDeckProvider implements ActualDeckProvider {
 
-    private final int setsToProvide;
+    private final int amountOfSets;
 
-    public FullActualDeckProvider(int setsToProvide) {
-        this.setsToProvide = setsToProvide;
+    public FullActualDeckProvider(int amountOfSets) {
+        this.amountOfSets = amountOfSets;
     }
 
     @Override
     public Deck provide(boolean shuffle) throws JsonProcessingException {
-        return provide(setsToProvide, shuffle);
+        return provide(amountOfSets, shuffle);
     }
 
-    public Deck provide(int numberToProvide, boolean shuffle) throws JsonProcessingException {
+    public Deck provide(int amountOfSets, boolean shuffle) throws JsonProcessingException {
         RequestSpecification spec = new RequestSpecBuilder().setBaseUri(BASE_URL)
                 .setBasePath(CREATE_PATH + (shuffle ? SHUFFLE_PATH : EMPTY_STRING))
-                .addParam(DECKS_COUNT_PARAM, numberToProvide)
+                .addParam(DECKS_COUNT_PARAM, amountOfSets)
                 .build();
         Response response = REST_HELPER.sendGETRequest(spec);
         return OBJECT_MAPPER_HELPER.mapDeck(response.asString());

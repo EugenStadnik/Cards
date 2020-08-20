@@ -13,21 +13,21 @@ import static com.deckofcards.api.utils.Constants.*;
 
 public class FullExpectedDeckProvider implements ExpectedDeckProvider {
 
-    private final int setsToProvide;
+    private final int amountOfSets;
 
-    public FullExpectedDeckProvider(int setsToProvide) {
-        this.setsToProvide = setsToProvide;
+    public FullExpectedDeckProvider(int amountOfSets) {
+        this.amountOfSets = amountOfSets;
     }
 
     @Override
     public Deck provide(boolean shuffle) {
-        return provide(setsToProvide, shuffle);
+        return provide(amountOfSets, shuffle);
     }
 
-    public Deck provide(int setsToProvide, boolean shuffle) {
+    public Deck provide(int amountOfSets, boolean shuffle) {
         Deck deck = new Deck();
-        List<Card> cards = new ArrayList<>(setsToProvide * FULL_DECK_VOLUME * 2);
-        Stream.generate(() -> setsToProvide).limit(setsToProvide).forEach((dec) -> {
+        List<Card> cards = new ArrayList<>(amountOfSets * FULL_DECK_VOLUME * 2);
+        Stream.generate(() -> amountOfSets).limit(amountOfSets).forEach((dec) -> {
             Stream.of(Value.values()).forEach((value) -> {
                 Stream.of(Suit.values()).forEach((suit) -> {
                     cards.add(new Card(value, suit));

@@ -7,31 +7,31 @@ import com.deckofcards.api.utils.providers.actual_deck_providers.SpecificActualD
 
 public class ActualDeckProviderFactory implements ProviderFactory {
 
-    private final String numberOfCards;
-    private final Integer numberOfDecks;
+    private final String amountOfCards;
+    private final int amountOfSets;
     private final Deck expectedDeck;
 
-    public ActualDeckProviderFactory(String numberOfCards, Integer numberOfDecks, Deck expectedDeck) {
-        this.numberOfCards = numberOfCards;
-        this.numberOfDecks = numberOfDecks;
+    public ActualDeckProviderFactory(String amountOfCards, Integer amountOfSets, Deck expectedDeck) {
+        this.amountOfCards = amountOfCards;
+        this.amountOfSets = amountOfSets;
         this.expectedDeck = expectedDeck;
     }
 
     @Override
     public ActualDeckProvider getProvider() {
-        return getProvider(numberOfCards, numberOfDecks, expectedDeck);
+        return getProvider(amountOfCards, amountOfSets, expectedDeck);
     }
 
-    public ActualDeckProvider getProvider(String numberOfCards, Integer numberOfDecks, Deck expectedDeck) {
-        if(PARAMETER_CHECKER.isAll(numberOfCards)) {
-            return new FullActualDeckProvider(numberOfDecks);
-        } else if(PARAMETER_CHECKER.isNumber(numberOfCards)
-                || PARAMETER_CHECKER.isValue(numberOfCards)
-                || PARAMETER_CHECKER.isSuit(numberOfCards)) {
+    public ActualDeckProvider getProvider(String amountOfCards, Integer amountOfSets, Deck expectedDeck) {
+        if(PARAMETER_CHECKER.isAll(amountOfCards)) {
+            return new FullActualDeckProvider(amountOfSets);
+        } else if(PARAMETER_CHECKER.isNumber(amountOfCards)
+                || PARAMETER_CHECKER.isValue(amountOfCards)
+                || PARAMETER_CHECKER.isSuit(amountOfCards)) {
             return new SpecificActualDeckProvider(expectedDeck);
         } else {
             throw new IllegalArgumentException("The \""
-                    + numberOfCards + "\" test parameter is not a card name or suit or valid cards quantity");
+                    + amountOfCards + "\" test parameter is not a card name or suit or valid cards quantity");
         }
     }
 

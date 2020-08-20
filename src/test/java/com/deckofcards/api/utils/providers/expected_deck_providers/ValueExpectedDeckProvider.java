@@ -1,7 +1,6 @@
 package com.deckofcards.api.utils.providers.expected_deck_providers;
 
 import com.deckofcards.api.pojo.Card;
-import com.deckofcards.api.pojo.Deck;
 import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
@@ -9,26 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ValueExpectedDeckProvider implements ExpectedDeckProvider {
-
-    private final Value valueToProvide;
+public class ValueExpectedDeckProvider extends ExpectedDeckProvider {
 
     public ValueExpectedDeckProvider(Value valueToProvide) {
-        this.valueToProvide = valueToProvide;
+        super(valueToProvide);
     }
 
-    @Override
-    public Deck provide(boolean shuffle) {
-        return provide(valueToProvide, shuffle);
-    }
-
-    public Deck provide(Value valueToProvide, boolean shuffle) {
-        Deck deck = new Deck();
+    public List<Card> provide(Object context, boolean shuffle) {
+        Value valueToProvide = (Value)context;
         List<Card> cards = new ArrayList<>(Suit.values().length * 2);
         Stream.of(Suit.values()).forEach((suit) -> {
             cards.add(new Card(valueToProvide, suit));
         });
-        return completeDeck(shuffle, cards, deck);
+        return cards;
     }
 
 }

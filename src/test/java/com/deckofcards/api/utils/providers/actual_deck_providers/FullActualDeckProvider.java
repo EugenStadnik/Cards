@@ -11,6 +11,7 @@ import static com.deckofcards.api.utils.Constants.*;
 public class FullActualDeckProvider implements ActualDeckProvider {
 
     private final int amountOfSets;
+    private Response currentResponse;
 
     public FullActualDeckProvider(int amountOfSets) {
         this.amountOfSets = amountOfSets;
@@ -26,7 +27,14 @@ public class FullActualDeckProvider implements ActualDeckProvider {
                 .setBasePath(CREATE_PATH + (shuffle ? SHUFFLE_PATH : EMPTY_STRING))
                 .addParam(DECKS_COUNT_PARAM, amountOfSets)
                 .build();
-        Response response = REST_HELPER.sendGETRequest(spec);
-        return OBJECT_MAPPER_HELPER.mapDeck(response.asString());
+        currentResponse = REST_HELPER.sendGETRequest(spec);
+        return OBJECT_MAPPER_HELPER.mapDeck(currentResponse.asString());
+    }
+
+    public Response getCurrentResponse() {
+        if(currentResponse == null) {
+            throw new IllegalStateException("There is no response for now. Send request first.");
+        }
+        return currentResponse;
     }
 }

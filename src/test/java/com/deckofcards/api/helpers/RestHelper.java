@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -37,8 +38,14 @@ public class RestHelper {
         FilterableRequestSpecification httpRequest = (FilterableRequestSpecification)spec;
         LOGGER.info("Request: " + Method.GET + " - " + httpRequest.getURI());
         Response response = given(spec).when().get();
+        String pretypiedResponse;
+        try {
+            pretypiedResponse = new JSONObject(response.asString()).toString(3);
+        } catch(JSONException je) {
+            pretypiedResponse = response.asString();
+        }
         LOGGER.info("Retrieved response:\n"
-                + response.statusLine() + "\n" + new JSONObject(response.asString()).toString(3));
+                + response.statusLine() + "\n" + pretypiedResponse);
         return response;
     }
 

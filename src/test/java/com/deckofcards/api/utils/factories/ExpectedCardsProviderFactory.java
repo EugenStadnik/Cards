@@ -25,7 +25,7 @@ public class ExpectedCardsProviderFactory implements ProviderFactory {
         } else if(PARAMETER_CHECKER.isNumber(amountOfCards)) {
             return new RandomExpectedDeckProvider(Integer.parseInt(amountOfCards));
         } else if(PARAMETER_CHECKER.isValue(amountOfCards)) {
-            return new ValueExpectedDeckProvider(Value.getValueOf(amountOfCards));
+            return new ValueExpectedDeckProvider(Value.valueOf(amountOfCards));
         } else if(PARAMETER_CHECKER.isSuit(amountOfCards)) {
             return new SuitExpectedDeckProvider(Suit.valueOf(amountOfCards));
         } else {

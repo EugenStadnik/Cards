@@ -62,8 +62,8 @@ public class Card extends Pojo {
     }
 
     @JsonProperty(value = "value", required = true)
-    public Value getValue() {
-        return value;
+    public String getValue() {
+        return value.toString();
     }
 
     @JsonProperty(value = "value", required = true)

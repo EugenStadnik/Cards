@@ -1,7 +1,6 @@
 package com.deckofcards.api.utils.providers.expected_deck_providers;
 
 import com.deckofcards.api.pojo.Card;
-import com.deckofcards.api.pojo.Deck;
 import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
@@ -11,21 +10,15 @@ import java.util.stream.Stream;
 
 import static com.deckofcards.api.utils.Constants.*;
 
-public class FullExpectedDeckProvider implements ExpectedDeckProvider {
+public class FullExpectedDeckProvider extends ExpectedDeckProvider {
 
-    private final int amountOfSets;
-
-    public FullExpectedDeckProvider(int amountOfSets) {
-        this.amountOfSets = amountOfSets;
+    public FullExpectedDeckProvider(Integer amountOfSets) {
+        super(amountOfSets);
     }
 
     @Override
-    public Deck provide(boolean shuffle) {
-        return provide(amountOfSets, shuffle);
-    }
-
-    public Deck provide(int amountOfSets, boolean shuffle) {
-        Deck deck = new Deck();
+    public List<Card> provide(Object context, boolean shuffle) {
+        int amountOfSets = (Integer)context;
         List<Card> cards = new ArrayList<>(amountOfSets * FULL_DECK_VOLUME * 2);
         Stream.generate(() -> amountOfSets).limit(amountOfSets).forEach((dec) -> {
             Stream.of(Value.values()).forEach((value) -> {
@@ -34,7 +27,7 @@ public class FullExpectedDeckProvider implements ExpectedDeckProvider {
                 });
             });
         });
-        return completeDeck(shuffle, cards, deck);
+        return cards;
     }
 
 }

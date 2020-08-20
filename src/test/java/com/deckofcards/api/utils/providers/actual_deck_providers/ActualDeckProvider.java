@@ -5,6 +5,7 @@ import com.deckofcards.api.helpers.RestHelper;
 import com.deckofcards.api.pojo.Deck;
 import com.deckofcards.api.utils.providers.DeckProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.restassured.response.Response;
 
 public interface ActualDeckProvider extends DeckProvider {
 
@@ -12,5 +13,7 @@ public interface ActualDeckProvider extends DeckProvider {
     RestHelper REST_HELPER = RestHelper.getInstance();
 
     Deck provide(boolean shuffle) throws JsonProcessingException;
+
+    Response getCurrentResponse();
 
 }

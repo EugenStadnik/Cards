@@ -16,7 +16,7 @@ public class ValueDeserialiser extends JsonDeserializer<Value> {
         if (data != null && data.stringValue != null) {
             //TODO: do not catch here, catch in test and report as an issue
             try {
-                enumValue = Value.getValueOf(data.stringValue);
+                enumValue = Value.valueOf(data.stringValue);
             } catch(IllegalArgumentException iae) {
                 enumValue = null;
             }

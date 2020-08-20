@@ -24,6 +24,8 @@ Feature: Verification of deckofcards API
   and check that card amount changed and drawn cards are no longer in the deck
     Given the 1 sets of '11' 'SHUFFLED' cards in the deck
     When '5' cards are drawn from the 'bottom' of the deck
+    Then drawing response status code is 200
+    And requested amount match with drawn amount
     Then the player have gotten only available cards from the deck
     And appropriate quantity of cards remains in deck
     And drawn cards are no longer in the deck

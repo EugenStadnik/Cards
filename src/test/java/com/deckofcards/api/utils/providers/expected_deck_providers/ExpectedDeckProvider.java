@@ -2,16 +2,36 @@ package com.deckofcards.api.utils.providers.expected_deck_providers;
 
 import com.deckofcards.api.pojo.Card;
 import com.deckofcards.api.pojo.Deck;
+import com.deckofcards.api.utils.factories.LoggerFactory;
 import com.deckofcards.api.utils.providers.DeckProvider;
+import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.List;
 
-public interface ExpectedDeckProvider extends DeckProvider {
+public abstract class ExpectedDeckProvider implements DeckProvider {
 
-    Deck provide(boolean shuffle);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExpectedDeckProvider.class);
+    private Object context;
 
-    default Deck completeDeck(boolean shuffle, List<Card> cards, Deck seed) {
+    public ExpectedDeckProvider(Object context) {
+        this.context = context;
+    }
+
+    @Override
+    public Deck provide(boolean shuffle) {
+        Deck deck = new Deck();
+        List<Card> cards = provide(context, shuffle);
+        deck.setCards(cards);
+        Deck completedDeck = completeDeck(shuffle, cards, deck);
+        LOGGER.info("The expected data set:\n" + new JSONObject(completedDeck).toString(3));
+        return completedDeck;
+    }
+
+    public abstract List<Card> provide(Object context, boolean shuffle);
+
+    public Deck completeDeck(boolean shuffle, List<Card> cards, Deck seed) {
         if (shuffle) {
             seed.setShuffled(true);
             Collections.shuffle(cards);
@@ -24,7 +44,10 @@ public interface ExpectedDeckProvider extends DeckProvider {
         return seed;
     }
 
-    default Deck updateDeck(Deck previousDeckState, Deck drawnDeck) {
+    public Deck updateDeck(Deck previousDeckState, Deck drawnDeck) {
+        if(drawnDeck == null) {
+            return new Deck(previousDeckState);
+        }
         Deck updatedDeck = new Deck(previousDeckState);
         updatedDeck.getCards().removeAll(drawnDeck.getCards());
         updatedDeck.setRemaining(updatedDeck.getCards().size());

@@ -14,6 +14,8 @@ import static com.deckofcards.api.utils.Constants.*;
 public class SpecificActualDeckProvider implements ActualDeckProvider {
 
     private final Deck expectedDeck;
+    private Response currentResponse;
+
 
     public SpecificActualDeckProvider(Deck expectedDeck) {
         this.expectedDeck = expectedDeck;
@@ -31,8 +33,15 @@ public class SpecificActualDeckProvider implements ActualDeckProvider {
                 .setBasePath(CREATE_PATH + (shuffle ? SHUFFLE_PATH : EMPTY_STRING))
                 .addQueryParam(SPECIFIC_CARDS_PARAM, cardsToProvide)
                 .build();
-        Response response = REST_HELPER.sendGETRequest(spec);
-        return OBJECT_MAPPER_HELPER.mapDeck(response.asString());
+        currentResponse = REST_HELPER.sendGETRequest(spec);
+        return OBJECT_MAPPER_HELPER.mapDeck(currentResponse.asString());
+    }
+
+    public Response getCurrentResponse() {
+        if(currentResponse == null) {
+            throw new IllegalStateException("There is no response for now. Send request first.");
+        }
+        return currentResponse;
     }
 
 }

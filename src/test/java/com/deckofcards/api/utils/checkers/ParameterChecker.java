@@ -4,6 +4,9 @@ import com.deckofcards.api.utils.Constants;
 import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ParameterChecker {
 
     private static ParameterChecker instance;
@@ -20,7 +23,7 @@ public class ParameterChecker {
     public boolean isNumber(String parameter) {
         try {
             Integer quantity = Integer.parseInt(parameter);
-            if(quantity <= Constants.FULL_DECK_VOLUME && quantity >= 1) {
+            if(quantity >= 1) {
                 return true;
             } else {
                 return false;
@@ -31,13 +34,13 @@ public class ParameterChecker {
     }
 
     public boolean isAll(String parameter) {
-        return Constants.FULL_DECK_VOLUME.toString().equals(parameter)
-                || Constants.ALL_SCRIPT_PARAM.equals(parameter.toUpperCase());
+        return Constants.ALL_SCRIPT_PARAM.equals(parameter.toUpperCase());
     }
 
     public boolean isValue(String parameter) {
+        List<String> params = Arrays.asList(parameter.split(","));
         try {
-            Value.getValueOf(parameter);
+            Value.valueOf(parameter.toUpperCase());
             return true;
         } catch(IllegalArgumentException iae) {
             return false;
@@ -45,8 +48,9 @@ public class ParameterChecker {
     }
 
     public boolean isSuit(String parameter) {
+        List<String> params = Arrays.asList(parameter.split(","));
         try {
-            Suit.valueOf(parameter);
+            Suit.valueOf(parameter.toUpperCase());
             return true;
         } catch(IllegalArgumentException iae) {
             return false;

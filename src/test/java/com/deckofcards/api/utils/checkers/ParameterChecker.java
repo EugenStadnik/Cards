@@ -1,8 +1,8 @@
 package com.deckofcards.api.utils.checkers;
 
 import com.deckofcards.api.utils.Constants;
-import com.deckofcards.api.pojo.Suit;
-import com.deckofcards.api.pojo.Value;
+import com.deckofcards.api.pojo.deck.Suit;
+import com.deckofcards.api.pojo.deck.Value;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ParameterChecker {
     public boolean isNumber(String parameter) {
         try {
             int quantity = Integer.parseInt(parameter);
-            return quantity >= 1;
+            return quantity >= 0;
         } catch(NumberFormatException nfe) {
             return false;
         }

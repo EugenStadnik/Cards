@@ -1,8 +1,8 @@
-package com.deckofcards.api.utils.providers.expected_deck_providers;
+package com.deckofcards.api.features.providers.expected_deck_providers;
 
-import com.deckofcards.api.pojo.Card;
-import com.deckofcards.api.pojo.Suit;
-import com.deckofcards.api.pojo.Value;
+import com.deckofcards.api.pojo.deck.Card;
+import com.deckofcards.api.pojo.deck.Suit;
+import com.deckofcards.api.pojo.deck.Value;
 
 import java.util.List;
 import java.util.stream.Collectors;

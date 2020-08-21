@@ -1,4 +1,4 @@
-package com.deckofcards.api.pojo;
+package com.deckofcards.api.pojo.deck;
 
 import com.deckofcards.api.utils.Constants;
 
@@ -15,10 +15,10 @@ public enum Value {
     JACK("J", "JACK"), QUEEN("Q", "QUEEN"),
     KING("K", "KING"), ACE("A", "ACE");
 
-    private String shortName;
-    private String representation;
+    private final String shortName;
+    private final String representation;
 
-    private Value(String shortName, String representation) {
+    Value(String shortName, String representation) {
         this.shortName = shortName;
         this.representation = representation;
     }

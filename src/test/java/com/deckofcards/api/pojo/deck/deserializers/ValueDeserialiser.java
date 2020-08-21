@@ -1,6 +1,6 @@
-package com.deckofcards.api.utils.deserializers;
+package com.deckofcards.api.pojo.deck.deserializers;
 
-import com.deckofcards.api.pojo.Suit;
+import com.deckofcards.api.pojo.deck.Value;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -8,15 +8,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 
-public class SuitDeserialiser extends JsonDeserializer<Suit> {
+public class ValueDeserialiser extends JsonDeserializer<Value> {
     @Override
-    public Suit deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Value deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         Data data = p.readValueAs(Data.class);
-        Suit enumValue;
+        Value enumValue;
         if (data != null && data.stringValue != null) {
-            //TODO: do not catch here, catch in test and report as an issue
             try {
-                enumValue = Suit.valueOf(data.stringValue);
+                enumValue = Value.getValueOf(data.stringValue);
             } catch(IllegalArgumentException iae) {
                 enumValue = null;
             }

@@ -1,1 +1,4 @@
-$GIT_DIR/.idea
+.idea/
+build/
+src/test/resources/reports/
+src/test/resources/drivers/

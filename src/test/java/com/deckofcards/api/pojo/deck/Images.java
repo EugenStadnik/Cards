@@ -1,4 +1,4 @@
-package com.deckofcards.api.pojo;
+package com.deckofcards.api.pojo.deck;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.net.URL;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Images extends Pojo {
+public class Images {
 
     @JsonProperty("svg")
     private URL svg;

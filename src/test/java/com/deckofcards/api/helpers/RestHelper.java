@@ -1,13 +1,13 @@
 package com.deckofcards.api.helpers;
 
-import com.deckofcards.api.utils.factories.LoggerFactory;
+import com.deckofcards.api.features.factories.LoggerFactory;
+import com.deckofcards.api.utils.JsonPretifier;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class RestHelper {
         Response response = given(spec).when().get();
         String pretypiedResponse;
         try {
-            pretypiedResponse = new JSONObject(response.asString()).toString(3);
+            pretypiedResponse = JsonPretifier.pretify(response.asString());
         } catch(JSONException je) {
             pretypiedResponse = response.asString();
         }

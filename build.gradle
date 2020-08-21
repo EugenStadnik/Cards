@@ -4,12 +4,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.1.RELEASE'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom 'org.apache.logging.log4j:log4j-bom:2.13.3'
-    }
-}
-
 group 'Cards'
 version '1.0-SNAPSHOT'
 
@@ -41,9 +35,10 @@ task cucumber() {
     dependsOn assemble, testClasses
     doLast {
         javaexec {
+            apply plugin: 'application'
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter', '--glue', 'com.deckofcards.api.features.steps', 'src/test/resources/features']
+            args = ['--plugin', 'html:src/test/resources/reports/report.html', '--glue', 'com.deckofcards.api',  'src/test/resources/features']
         }
     }
 }

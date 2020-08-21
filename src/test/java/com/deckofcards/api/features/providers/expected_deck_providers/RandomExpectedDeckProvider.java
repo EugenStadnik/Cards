@@ -1,9 +1,10 @@
-package com.deckofcards.api.utils.providers.expected_deck_providers;
+package com.deckofcards.api.features.providers.expected_deck_providers;
 
-import com.deckofcards.api.pojo.Card;
-import com.deckofcards.api.pojo.Suit;
-import com.deckofcards.api.pojo.Value;
+import com.deckofcards.api.pojo.deck.Card;
+import com.deckofcards.api.pojo.deck.Suit;
+import com.deckofcards.api.pojo.deck.Value;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,6 +18,10 @@ public class RandomExpectedDeckProvider extends ExpectedDeckProvider {
     @Override
     public List<Card> provide(int amountOfSets, Object context, boolean shuffle) {
         int amountsOfCards = (Integer)context;
+        if(amountsOfCards < 0) {
+            throw new InvalidParameterException("The " + amountsOfCards + " provided amount of cards cannot be negative" +
+                    ". It is unable to provide cards backward.");
+        }
         List<Card> cards = Stream.generate(() -> amountsOfCards).limit(amountsOfCards).map((i) -> {
             Value value = Value.getRandom();
             Suit suit = Suit.getRandom();

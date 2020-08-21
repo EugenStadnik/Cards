@@ -1,7 +1,7 @@
-package com.deckofcards.api.utils.factories;
+package com.deckofcards.api.features.factories;
 
 import com.deckofcards.api.utils.checkers.ParameterChecker;
-import com.deckofcards.api.utils.providers.DeckProvider;
+import com.deckofcards.api.features.providers.DeckProvider;
 
 public interface ProviderFactory {
 

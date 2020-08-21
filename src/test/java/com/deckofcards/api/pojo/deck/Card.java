@@ -1,7 +1,7 @@
-package com.deckofcards.api.pojo;
+package com.deckofcards.api.pojo.deck;
 
-import com.deckofcards.api.utils.deserializers.SuitDeserialiser;
-import com.deckofcards.api.utils.deserializers.ValueDeserialiser;
+import com.deckofcards.api.pojo.deck.deserializers.SuitDeserialiser;
+import com.deckofcards.api.pojo.deck.deserializers.ValueDeserialiser;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.net.URL;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Card extends Pojo {
+public class Card {
 
     @JsonProperty("image")
     private URL image;

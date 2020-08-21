@@ -1,13 +1,13 @@
 package com.deckofcards.api.helpers;
 
-import com.deckofcards.api.pojo.Deck;
+import com.deckofcards.api.pojo.deck.Deck;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ObjectMapperHelper {
 
     private static ObjectMapperHelper instance;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private ObjectMapperHelper() {}
 
@@ -18,7 +18,12 @@ public class ObjectMapperHelper {
         return instance;
     }
 
-    public Deck mapDeck(String content) throws JsonProcessingException {
-        return objectMapper.readValue(content, Deck.class);
+    public Deck mapDeck(String content) {
+        try {
+            return objectMapper.readValue(content, Deck.class);
+        } catch(JsonProcessingException jpre) {
+            throw new AssertionError("Invalid or unparsable format data is stored in source." +
+                    "\nSource: " + content);
+        }
     }
 }

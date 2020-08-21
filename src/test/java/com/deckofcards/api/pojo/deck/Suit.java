@@ -1,4 +1,4 @@
-package com.deckofcards.api.pojo;
+package com.deckofcards.api.pojo.deck;
 
 import com.deckofcards.api.utils.Constants;
 

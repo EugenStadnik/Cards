@@ -1,9 +1,9 @@
-package com.deckofcards.api.utils.factories;
+package com.deckofcards.api.features.factories;
 
-import com.deckofcards.api.pojo.Deck;
-import com.deckofcards.api.utils.providers.actual_deck_providers.ActualDeckProvider;
-import com.deckofcards.api.utils.providers.actual_deck_providers.FullActualDeckProvider;
-import com.deckofcards.api.utils.providers.actual_deck_providers.SpecificActualDeckProvider;
+import com.deckofcards.api.pojo.deck.Deck;
+import com.deckofcards.api.features.providers.actual_deck_providers.ActualDeckProvider;
+import com.deckofcards.api.features.providers.actual_deck_providers.FullActualDeckProvider;
+import com.deckofcards.api.features.providers.actual_deck_providers.SpecificActualDeckProvider;
 
 public class ActualDeckProviderFactory implements ProviderFactory {
 

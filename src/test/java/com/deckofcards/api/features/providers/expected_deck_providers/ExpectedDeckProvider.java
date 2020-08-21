@@ -1,14 +1,16 @@
-package com.deckofcards.api.utils.providers.expected_deck_providers;
+package com.deckofcards.api.features.providers.expected_deck_providers;
 
-import com.deckofcards.api.pojo.Card;
-import com.deckofcards.api.pojo.Deck;
-import com.deckofcards.api.utils.factories.LoggerFactory;
-import com.deckofcards.api.utils.providers.DeckProvider;
+import com.deckofcards.api.pojo.deck.Card;
+import com.deckofcards.api.pojo.deck.Deck;
+import com.deckofcards.api.features.factories.LoggerFactory;
+import com.deckofcards.api.features.providers.DeckProvider;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
+import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.List;
+
+import static com.deckofcards.api.utils.JsonPretifier.*;
 
 public abstract class ExpectedDeckProvider implements DeckProvider {
 
@@ -17,6 +19,10 @@ public abstract class ExpectedDeckProvider implements DeckProvider {
     private final Object context;
 
     public ExpectedDeckProvider(int amountOfSets, Object context) {
+        if(amountOfSets < 0) {
+            throw new InvalidParameterException("The " + amountOfSets + " provided amount of sets cannot be negative" +
+                    ". It is unable to provide decks backward.");
+        }
         this.amountOfSets = amountOfSets;
         this.context = context;
     }
@@ -27,7 +33,7 @@ public abstract class ExpectedDeckProvider implements DeckProvider {
         List<Card> cards = provide(amountOfSets, context, shuffle);
         deck.setCards(cards);
         Deck completedDeck = completeDeck(shuffle, cards, deck);
-        LOGGER.info("The expected data set:\n" + new JSONObject(completedDeck).toString(3));
+        LOGGER.info("The expected data set:\n" + pretify(completedDeck));
         return completedDeck;
     }
 
@@ -53,6 +59,7 @@ public abstract class ExpectedDeckProvider implements DeckProvider {
         Deck updatedDeck = new Deck(previousDeckState);
         updatedDeck.getCards().removeAll(drawnDeck.getCards());
         updatedDeck.setRemaining(updatedDeck.getCards().size());
+        LOGGER.info("The residual expected deck:\n" + pretify(updatedDeck));
         return updatedDeck;
     }
 

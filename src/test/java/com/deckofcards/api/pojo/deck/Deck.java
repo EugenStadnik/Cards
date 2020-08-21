@@ -1,5 +1,6 @@
-package com.deckofcards.api.pojo;
+package com.deckofcards.api.pojo.deck;
 
+import com.deckofcards.api.pojo.Pojo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

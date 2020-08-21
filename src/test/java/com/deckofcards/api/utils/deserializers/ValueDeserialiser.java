@@ -12,18 +12,18 @@ public class ValueDeserialiser extends JsonDeserializer<Value> {
     @Override
     public Value deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         Data data = p.readValueAs(Data.class);
-        Value enumValue;
+        Value enumValues;
         if (data != null && data.stringValue != null) {
             //TODO: do not catch here, catch in test and report as an issue
             try {
-                enumValue = Value.valueOf(data.stringValue);
+                enumValues = Value.getValueOf(data.stringValue);
             } catch(IllegalArgumentException iae) {
-                enumValue = null;
+                enumValues = null;
             }
         } else {
-            enumValue = null;
+            enumValues = null;
         }
-        return enumValue;
+        return enumValues;
     }
 
     private static class Data {

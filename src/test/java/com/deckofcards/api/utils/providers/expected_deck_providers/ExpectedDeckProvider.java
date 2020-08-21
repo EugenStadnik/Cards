@@ -13,23 +13,25 @@ import java.util.List;
 public abstract class ExpectedDeckProvider implements DeckProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExpectedDeckProvider.class);
-    private Object context;
+    private final int amountOfSets;
+    private final Object context;
 
-    public ExpectedDeckProvider(Object context) {
+    public ExpectedDeckProvider(int amountOfSets, Object context) {
+        this.amountOfSets = amountOfSets;
         this.context = context;
     }
 
     @Override
     public Deck provide(boolean shuffle) {
         Deck deck = new Deck();
-        List<Card> cards = provide(context, shuffle);
+        List<Card> cards = provide(amountOfSets, context, shuffle);
         deck.setCards(cards);
         Deck completedDeck = completeDeck(shuffle, cards, deck);
         LOGGER.info("The expected data set:\n" + new JSONObject(completedDeck).toString(3));
         return completedDeck;
     }
 
-    public abstract List<Card> provide(Object context, boolean shuffle);
+    public abstract List<Card> provide(int amountOfSets, Object context, boolean shuffle);
 
     public Deck completeDeck(boolean shuffle, List<Card> cards, Deck seed) {
         if (shuffle) {

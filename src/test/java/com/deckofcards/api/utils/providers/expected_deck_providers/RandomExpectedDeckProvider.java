@@ -4,25 +4,28 @@ import com.deckofcards.api.pojo.Card;
 import com.deckofcards.api.pojo.Suit;
 import com.deckofcards.api.pojo.Value;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RandomExpectedDeckProvider extends ExpectedDeckProvider {
 
-    public RandomExpectedDeckProvider(int amountsOfCards) {
-        super(amountsOfCards);
+    public RandomExpectedDeckProvider(int amountOfSets, int amountsOfCards) {
+        super(amountOfSets, amountsOfCards);
     }
 
     @Override
-    public List<Card> provide(Object context, boolean shuffle) {
+    public List<Card> provide(int amountOfSets, Object context, boolean shuffle) {
         int amountsOfCards = (Integer)context;
-        List<Card> cards = new ArrayList<>(amountsOfCards * 2);
-        Stream.generate(() -> amountsOfCards).limit(amountsOfCards).forEach((i) -> {
+        List<Card> cards = Stream.generate(() -> amountsOfCards).limit(amountsOfCards).map((i) -> {
             Value value = Value.getRandom();
             Suit suit = Suit.getRandom();
-            cards.add(new Card(value, suit));
-        });
-        return cards;
+            return new Card(value, suit);
+        }).collect(Collectors.toList());
+        return Stream.generate(() -> {return amountOfSets;}).limit(amountOfSets).map((integer) -> {
+            return cards.stream();
+        }).flatMap((cardStream) -> {
+            return cardStream;
+        }).collect(Collectors.toList());
     }
 }

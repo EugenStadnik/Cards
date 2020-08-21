@@ -1,10 +1,9 @@
 package com.deckofcards.api.features.steps;
 
 import com.deckofcards.api.pojo.Deck;
-import com.deckofcards.api.pojo.Value;
 import com.deckofcards.api.utils.drawers.CardsDrawer;
 import com.deckofcards.api.utils.factories.ActualDeckProviderFactory;
-import com.deckofcards.api.utils.factories.ExpectedCardsProviderFactory;
+import com.deckofcards.api.utils.factories.ExpectedDeckProviderFactory;
 import com.deckofcards.api.utils.providers.actual_deck_providers.ActualDeckProvider;
 import com.deckofcards.api.utils.providers.expected_deck_providers.ExpectedDeckProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,8 +14,6 @@ import cucumber.api.java.en.When;
 import org.json.JSONArray;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static com.deckofcards.api.utils.Constants.*;
 
@@ -34,7 +31,7 @@ public class DeckOfCardsApiStepsDefinition {
     @Test
     public void test1() throws JsonProcessingException {
         theDeckContainingSomeCards(1, "ACE", "SHUFFLED");
-        someCardsAreDrawnFromSomeSideOfTheDeck("3", "bottom");
+        someCardsAreDrawnFromSomeSideOfTheDeck("ALL", "bottom");
         drawingResponseStatusCodeIsValid(200);
         appropriateQuantityOfCardsRemainsInDeck();
         thePlayerHaveGottenOnlyAvailableCardsFromTheDeck();
@@ -42,10 +39,10 @@ public class DeckOfCardsApiStepsDefinition {
     }
 
     @Given("the {int} sets of {string} {string} cards in the deck")
-    public void theDeckContainingSomeCards(int numberOfDecks, String cards, String shuffled) throws JsonProcessingException {
-        expectedDeckProvider = new ExpectedCardsProviderFactory(cards, numberOfDecks).getProvider();
+    public void theDeckContainingSomeCards(int amountOfSets, String cards, String shuffled) throws JsonProcessingException {
+        expectedDeckProvider = new ExpectedDeckProviderFactory(cards, amountOfSets).getProvider();
         fullExpectedSet = expectedDeckProvider.provide(SHUFFLED_SCRIPT_PARAM.equals(shuffled.toUpperCase()));
-        actualDeckProvider = new ActualDeckProviderFactory(cards, numberOfDecks, fullExpectedSet).getProvider();
+        actualDeckProvider = new ActualDeckProviderFactory(cards, amountOfSets, fullExpectedSet).getProvider();
         Deck actualDeck = actualDeckProvider.provide(SHUFFLED_SCRIPT_PARAM.equals(shuffled.toUpperCase()));
         fullExpectedSet.setDeck_id(actualDeck.getDeck_id());
     }
@@ -61,8 +58,8 @@ public class DeckOfCardsApiStepsDefinition {
     }
 
     @When("{string} cards are drawn from the {string} of the deck")
-    public void someCardsAreDrawnFromSomeSideOfTheDeck(String numberOfCards, String deckSide) throws JsonProcessingException {
-        actuallyDrawnSet = cardsDrawer.drawCards(fullExpectedSet, numberOfCards, deckSide);
+    public void someCardsAreDrawnFromSomeSideOfTheDeck(String amountOfCards, String deckSide) throws JsonProcessingException {
+        actuallyDrawnSet = cardsDrawer.drawCards(fullExpectedSet, amountOfCards, deckSide);
         requestedAmount = cardsDrawer.getCurrentlyRequestedAmount();
         leftExpectedSet = expectedDeckProvider.updateDeck(fullExpectedSet, actuallyDrawnSet);
         actuallyLeftSet = cardsDrawer.drawCards(leftExpectedSet.getDeck_id(), deckSide, leftExpectedSet.getRemaining());
@@ -104,10 +101,14 @@ public class DeckOfCardsApiStepsDefinition {
 
     @Then("drawn cards are no longer in the deck")
     public void drawnCardsAreNoLongerInTheDeck() {
-        Assert.assertFalse("Some drawn cards are left in the deck."
-        , actuallyLeftSet.getCards().size() > actuallyDrawnSet.getCards().size()
-                ? actuallyLeftSet.getCards().containsAll(actuallyDrawnSet.getCards())
-                : actuallyDrawnSet.getCards().containsAll(actuallyLeftSet.getCards()));
+        if((actuallyLeftSet.getCards() == null && actuallyDrawnSet.getCards() == null)
+                || (actuallyLeftSet.getCards().isEmpty() && actuallyDrawnSet.getCards().isEmpty())) {
+            Assert.assertFalse("Some drawn cards are left in the deck."
+                    , actuallyLeftSet.getCards().size() > actuallyDrawnSet.getCards().size()
+                            ? actuallyLeftSet.getCards().containsAll(actuallyDrawnSet.getCards())
+                            : actuallyDrawnSet.getCards().containsAll(actuallyLeftSet.getCards()));
+        }
+
     }
 
 }

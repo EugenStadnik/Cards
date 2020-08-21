@@ -1,7 +1,6 @@
 package com.deckofcards.api.utils.deserializers;
 
 import com.deckofcards.api.pojo.Suit;
-import com.deckofcards.api.pojo.Value;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

@@ -14,9 +14,9 @@ import static com.deckofcards.api.utils.Constants.*;
 
 public class DeckOfCardsApiStepsDefinition implements En {
 
+    private final CardsDrawer cardsDrawer = new CardsDrawer();
     private ExpectedDeckProvider expectedDeckProvider;
     private ActualDeckProvider actualDeckProvider;
-    private final CardsDrawer cardsDrawer = new CardsDrawer();
     private Deck fullExpectedSet;
     private Deck leftExpectedSet;
     private Deck actuallyDrawnSet;

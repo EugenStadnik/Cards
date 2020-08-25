@@ -23,6 +23,7 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20180813'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile group: 'log4j', name: 'apache-log4j-extras', version: '1.1'
 }
 
 configurations {

@@ -1,7 +1,6 @@
 package com.deckofcards.api.features.drawers;
 
 import com.deckofcards.api.helpers.ObjectMapperHelper;
-import com.deckofcards.api.helpers.PropertiesHelper;
 import com.deckofcards.api.helpers.RestHelper;
 import com.deckofcards.api.pojo.deck.Deck;
 import com.deckofcards.api.utils.checkers.ParameterChecker;
@@ -15,24 +14,11 @@ import static com.deckofcards.api.utils.Constants.*;
 
 public class CardsDrawer {
 
-    private final PropertiesHelper propertiesHelper;
     private final ParameterChecker parameterChecker = ParameterChecker.getInstance();
-    private RestHelper restHelper;
-    {
-        try {
-            restHelper = RestHelper.getInstance();
-        } catch (Throwable throwable) {
-            restHelper = null;
-            throwable.printStackTrace();
-        }
-    }
+    private final RestHelper restHelper = RestHelper.getInstance();
     private final ObjectMapperHelper objectMapperHelper = ObjectMapperHelper.getInstance();
     private Response currentResponse;
     private Integer currentlyRequestedAmount;
-
-    public CardsDrawer() {
-        propertiesHelper = PropertiesHelper.getInstance();
-    }
 
     public Deck drawCards(Deck generatedDeck, String requestedCards, String deckSide) {
         if(parameterChecker.isAll(requestedCards)) {
@@ -52,7 +38,7 @@ public class CardsDrawer {
             throw new InvalidParameterException("The " + amountToDraw + " provided amount of sets cannot be negative" +
                     ". It is unable to draw cards backward.");
         }
-        RequestSpecification spec = new RequestSpecBuilder().setBaseUri(propertiesHelper.getProperty(BASE_URL_PROPERTY_NAME))
+        RequestSpecification spec = new RequestSpecBuilder().setBaseUri(BASE_API_URL)
                 .setBasePath(deckId + DRAW_PATH + (BOTTOM_SCRIPT_PARAM.equals(side.toLowerCase()) ? BOTTOM_PATH : EMPTY_STRING))
                 .addQueryParam(CARDS_COUNT_PARAM, amountToDraw)
                 .build();

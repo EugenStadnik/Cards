@@ -22,8 +22,9 @@ public class ObjectMapperHelper {
         try {
             return objectMapper.readValue(content, Deck.class);
         } catch(JsonProcessingException jpre) {
-            throw new AssertionError("Invalid or unparsable format data is stored in source." +
-                    "\nSource: " + content);
+            throw new AssertionError("Invalid or unparsable format data is stored in source.\n"
+                    + jpre.getMessage()
+                    + "\nSource: " + content);
         }
     }
 }

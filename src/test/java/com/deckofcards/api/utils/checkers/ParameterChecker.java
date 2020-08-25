@@ -55,14 +55,14 @@ public class ParameterChecker {
     }
 
     public boolean isSuitsWithValues(String parameter) {
-        List<Suit> suits = Arrays.stream(parameter.split(Constants.SPECIFIC_CARDS_DELIMETER)).map((s) -> {
+        List<Suit> suits = Arrays.stream(parameter.split(Constants.SPECIFIC_CARDS_DELIMITER)).map((s) -> {
             try {
                 return Suit.valueOf(s);
             } catch (IllegalArgumentException iae) {
                 return null;
             }
         }).filter(Objects::nonNull).collect(Collectors.toList());
-        List<Value> values = Arrays.stream(parameter.split(Constants.SPECIFIC_CARDS_DELIMETER)).map((s) -> {
+        List<Value> values = Arrays.stream(parameter.split(Constants.SPECIFIC_CARDS_DELIMITER)).map((s) -> {
             try {
                 return Value.getValueOf(s);
             } catch (IllegalArgumentException iae) {

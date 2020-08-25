@@ -25,7 +25,7 @@ public class FullActualDeckProvider implements ActualDeckProvider {
     }
 
     public Deck provide(int amountOfSets, boolean shuffle) {
-        RequestSpecification spec = new RequestSpecBuilder().setBaseUri(propertiesHelper.getProperty(BASE_URL_PROPERTY_NAME))
+        RequestSpecification spec = new RequestSpecBuilder().setBaseUri(BASE_API_URL)
                 .setBasePath(CREATE_PATH + (shuffle ? SHUFFLE_PATH : EMPTY_STRING))
                 .addParam(DECKS_COUNT_PARAM, amountOfSets)
                 .build();

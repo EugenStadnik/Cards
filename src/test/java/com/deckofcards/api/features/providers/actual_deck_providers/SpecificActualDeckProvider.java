@@ -29,8 +29,8 @@ public class SpecificActualDeckProvider implements ActualDeckProvider {
 
     public Deck provide(Deck expectedDeck, boolean shuffle) {
         String cardsToProvide = expectedDeck.getCards().stream().map(Card::getCode)
-                .collect(Collectors.joining(SPECIFIC_CARDS_DELIMETER));
-        RequestSpecification spec = new RequestSpecBuilder().setBaseUri(propertiesHelper.getProperty(BASE_URL_PROPERTY_NAME))
+                .collect(Collectors.joining(SPECIFIC_CARDS_DELIMITER));
+        RequestSpecification spec = new RequestSpecBuilder().setBaseUri(BASE_API_URL)
                 .setBasePath(CREATE_PATH + (shuffle ? SHUFFLE_PATH : EMPTY_STRING))
                 .addQueryParam(SPECIFIC_CARDS_PARAM, cardsToProvide)
                 .build();

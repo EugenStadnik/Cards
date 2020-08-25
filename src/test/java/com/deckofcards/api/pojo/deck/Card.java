@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+
+import static com.deckofcards.api.utils.Constants.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Card {
@@ -24,12 +27,15 @@ public class Card {
     @JsonProperty(value = "code", required = true)
     private String code;
 
-    public Card() {}
+    public Card() {
+    }
 
-    public Card(Value value, Suit suit) {
+    public Card(Value value, Suit suit) throws MalformedURLException {
         this.value = value;
         this.suit = suit;
         this.code = value.getShortName() + suit.getShortName();
+        this.image = new URL(BASE_IMAGES_URL + this.code + PNG_EXTENSION);
+        this.images = new Images(this.code);
     }
 
     @Override

@@ -24,7 +24,6 @@ public class DeckOfCardsApiStepsDefinition implements En {
     private int requestedAmount;
 
     public DeckOfCardsApiStepsDefinition() {
-
         Given("the {int} sets of {string} {string} cards in the deck", (Integer amountOfSets, String cards, String shuffled) -> {
             expectedDeckProvider = new ExpectedDeckProviderFactory(cards, amountOfSets).getProvider();
             fullExpectedSet = expectedDeckProvider.provide(SHUFFLED_SCRIPT_PARAM.equals(shuffled.toUpperCase()));

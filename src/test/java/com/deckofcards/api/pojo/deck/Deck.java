@@ -48,8 +48,6 @@ public class Deck extends Pojo {
                     return true;
                 }
                 if(this.cards == null || other.cards == null
-                        || this.cards.isEmpty() && !other.cards.isEmpty()
-                        || !this.cards.isEmpty() && other.cards.isEmpty()
                         || this.cards.size() != other.cards.size()
                         || !this.cards.containsAll(other.cards)) {
                     return false;

@@ -26,7 +26,7 @@ public enum Suit {
     }
 
     public static List<Suit> valuesOf(String values) {
-        return Arrays.stream(values.split(Constants.SPECIFIC_CARDS_DELIMETER)).map(Suit::valueOf)
+        return Arrays.stream(values.split(Constants.SPECIFIC_CARDS_DELIMITER)).map(Suit::valueOf)
                 .collect(Collectors.toList());
     }
 

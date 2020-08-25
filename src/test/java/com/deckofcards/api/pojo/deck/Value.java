@@ -43,7 +43,7 @@ public enum Value {
     }
 
     public static List<Value> valuesOf(String values) {
-        return Arrays.stream(values.split(Constants.SPECIFIC_CARDS_DELIMETER)).map(Value::getValueOf)
+        return Arrays.stream(values.split(Constants.SPECIFIC_CARDS_DELIMITER)).map(Value::getValueOf)
                 .collect(Collectors.toList());
     }
 

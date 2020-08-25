@@ -41,11 +41,9 @@ public abstract class ExpectedDeckProvider implements DeckProvider {
 
     public Deck completeDeck(boolean shuffle, List<Card> cards, Deck seed) {
         if (shuffle) {
-            seed.setShuffled(true);
             Collections.shuffle(cards);
-        } else {
-            seed.setShuffled(false);
         }
+        seed.setShuffled(shuffle);
         seed.setRemaining(cards.size());
         seed.setCards(cards);
         seed.setSuccess(true);

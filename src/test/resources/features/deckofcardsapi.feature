@@ -1,29 +1,19 @@
-# Explanation: Given the {int} sets of {string} {string} cards in the deck
-# The first parameter could be any valid positive number.
-# The second parameter could be:
-# - 'All' then full set of cards should be retrieved
-# - any valid card's values separated by coma then all suits of defined values cards will be retrieved
-# - any valid card's suits separated by coma then all values of defined suits cards will be retrieved
-# - any valid number then random defined amount of cards will be retrieved
-# - any valid card's values and suits - not implemented yet
-# The third parameter either will shuffle the cards or return them in a specific order
-# Example Given the 2 sets of 'ACE,DIAMONDS' 'SHUFFLED' cards in the deck
-# - will retrieve 2 shuffled sets of all ACES and DIAMONDS
 Feature: Verification of deckofcards API
 
-  This feature sends different requests to deckofcards API
-  and verifies responses according to it's values validity.
+  As a user
+  I want to draw a deck of card in many ways
+  So I could play different card games
 
   Scenario Outline: Check if card count in deck is correct after drawing X cards from it
     Given the 1 sets of 'ALL' 'SHUFFLED' cards in the deck
     When '<drawnAmount>' cards are drawn from the 'top' of the deck
-    Then appropriate quantity of cards remains in deck
+    Then <remainingCards> cards remains in deck
 
     Examples:
-      | drawnAmount |
-      | 0           |
-      | 1           |
-      | 52          |
+      | drawnAmount | remainingCards |
+      | 0           | 52             |
+      | 1           | 51             |
+      | 52          | 0              |
 
   Scenario: Create a new deck containing only cards of specific names
   and validate that player can only get these cards from it
@@ -36,5 +26,5 @@ Feature: Verification of deckofcards API
     Given the 1 sets of '11' 'SHUFFLED' cards in the deck
     When '5' cards are drawn from the 'bottom' of the deck
     Then the player have gotten only available cards from the deck
-    And appropriate quantity of cards remains in deck
+    And 6 cards remains in deck
     And drawn cards are no longer in the deck

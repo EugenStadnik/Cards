@@ -24,6 +24,19 @@ public class DeckOfCardsApiStepsDefinition implements En {
     private int requestedAmount;
 
     public DeckOfCardsApiStepsDefinition() {
+        /**
+         * Explanation: Given the {int} sets of {string} {string} cards in the deck
+         * The first parameter could be any valid positive number.
+         * The second parameter could be:
+         * - 'All' then full set of cards should be retrieved
+         * - any valid card's values separated by coma then all suits of defined values cards will be retrieved
+         * - any valid card's suits separated by coma then all values of defined suits cards will be retrieved
+         * - any valid number then random defined amount of cards will be retrieved
+         * - any valid card's values and suits - not implemented yet
+         * The third parameter either will shuffle the cards or return them in a specific order
+         * Example Given the 2 sets of 'ACE,DIAMONDS' 'SHUFFLED' cards in the deck
+         * - will retrieve 2 shuffled sets of all ACES and DIAMONDS
+         * */
         Given("the {int} sets of {string} {string} cards in the deck", (Integer amountOfSets, String cards, String shuffled) -> {
             expectedDeckProvider = new ExpectedDeckProviderFactory(cards, amountOfSets).getProvider();
             fullExpectedSet = expectedDeckProvider.provide(SHUFFLED_SCRIPT_PARAM.equals(shuffled.toUpperCase()));
@@ -63,11 +76,11 @@ public class DeckOfCardsApiStepsDefinition implements En {
                     , requestedAmount, actuallyDrawnSet.getCards().size());
         });
 
-        Then("appropriate quantity of cards remains in deck", () -> {
+        Then("{int} cards remains in deck", (Integer remainingCards) -> {
             Assert.assertEquals("Actually remaining cards are not equals to expected."
-                            + "\nExpected amount: " + leftExpectedSet.getRemaining()
+                            + "\nExpected amount: " + remainingCards
                             + "\nActual amount: " + actuallyDrawnSet.getRemaining()
-                    , leftExpectedSet.getRemaining(), actuallyDrawnSet.getRemaining());
+                    , remainingCards, actuallyDrawnSet.getRemaining());
         });
 
         Then("the player have gotten only available cards from the deck", () -> {

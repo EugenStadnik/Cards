@@ -6,17 +6,17 @@ import com.deckofcards.api.features.providers.expected_deck_providers.*;
 
 public class ExpectedDeckProviderFactory implements ProviderFactory {
 
-    private final String amountOfCards;
+    private final String cards;
     private final int amountOfSets;
 
-    public ExpectedDeckProviderFactory(String amountOfCards, int amountOfSets) {
-        this.amountOfCards = amountOfCards;
+    public ExpectedDeckProviderFactory(String cards, int amountOfSets) {
+        this.cards = cards;
         this.amountOfSets = amountOfSets;
     }
 
     @Override
     public ExpectedDeckProvider getProvider() {
-        return getProvider(amountOfCards, amountOfSets);
+        return getProvider(cards, amountOfSets);
     }
 
     public ExpectedDeckProvider getProvider(String cards, int amountOfSets) {

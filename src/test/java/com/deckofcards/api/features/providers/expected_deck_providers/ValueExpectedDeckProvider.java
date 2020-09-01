@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class ValueExpectedDeckProvider extends ExpectedDeckProvider {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SuitExpectedDeckProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValueExpectedDeckProvider.class);
 
     public ValueExpectedDeckProvider(int amountOfSets, List<Value> valuesToProvide) {
         super(amountOfSets, valuesToProvide);
